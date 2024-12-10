@@ -14,7 +14,7 @@ from lib.metrics import masked_mape_np,  masked_mae,masked_mse,masked_rmse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--config", default='configurations/PEMS04_astgcn.conf', type=str,
+parser.add_argument("--config", default='./configurations/PEMS04_astgcn.conf', type=str,
                     help="configuration file path")
 args = parser.parse_args()
 config = configparser.ConfigParser()
