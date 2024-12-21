@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from ASTGCN.lib.utils import scaled_Laplacian, cheb_polynomial
+from lib.utils import scaled_Laplacian, cheb_polynomial
 
 
 class Spatial_Attention_layer(nn.Module):
