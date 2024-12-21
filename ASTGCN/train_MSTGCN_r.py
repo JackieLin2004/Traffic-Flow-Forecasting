@@ -12,7 +12,7 @@ from lib.utils import load_graphdata_channel1, get_adjacency_matrix, evaluate_on
 from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--config", default='configurations/PEMS04_astgcn.conf', type=str,
+parser.add_argument("--config", default='./configurations/PEMS04_astgcn.conf', type=str,
                     help="configuration file path")
 args = parser.parse_args()
 config = configparser.ConfigParser()
@@ -55,6 +55,9 @@ nb_time_filter = int(training_config['nb_time_filter'])
 in_channels = int(training_config['in_channels'])
 nb_block = int(training_config['nb_block'])
 K = int(training_config['K'])
+
+missing_value = float(training_config['missing_value'])
+metric_method = training_config['metric_method']
 
 folder_dir = '%s_h%dd%dw%d_channel%d_%e' % (model_name, num_of_hours, num_of_days, num_of_weeks, in_channels, learning_rate)
 print('folder_dir:', folder_dir)
@@ -134,9 +137,9 @@ def train_main():
 
         params_filename = os.path.join(params_path, 'epoch_%s.params' % epoch)
 
-        evaluate_on_test_mstgcn(net, test_loader, test_target_tensor, sw, epoch, _mean, _std)
+        # evaluate_on_test_mstgcn(net, test_loader, test_target_tensor, sw, epoch, _mean, _std)
 
-        val_loss = compute_val_loss_mstgcn(net, val_loader, criterion, sw, epoch)
+        val_loss = compute_val_loss_mstgcn(net, val_loader, criterion, 0, missing_value, sw, epoch)
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
@@ -192,7 +195,7 @@ def predict_main(global_step, data_loader, data_target_tensor, _mean, _std, type
 
     net.load_state_dict(torch.load(params_filename))
 
-    predict_and_save_results_mstgcn(net, data_loader, data_target_tensor, global_step, _mean, _std, params_path, type)
+    predict_and_save_results_mstgcn(net, data_loader, data_target_tensor, metric_method, global_step, _mean, _std, params_path, type)
 
 if __name__ == "__main__":
 

@@ -163,7 +163,7 @@ def read_and_generate_dataset(graph_signal_matrix_filename,
     data_seq = np.load(graph_signal_matrix_filename)['data']
 
     all_samples = []
-    for idx in range(data_seq.shape[0]):
+    for idx in range(data_seq.shape[0]):    # 0~16991
         # 获取样本索引
         sample = get_sample_indices(data_seq, num_of_weeks, num_of_days,
                                     num_of_hours, idx, num_for_predict,
@@ -198,10 +198,11 @@ def read_and_generate_dataset(graph_signal_matrix_filename,
         time_sample = np.expand_dims(np.array([idx]), axis=0)  # (1,1)
         sample.append(time_sample)
 
-        all_samples.append(
-            sample)  # sampe：[(week_sample),(day_sample),(hour_sample),target,time_sample] = [(1,N,F,Tw),(1,N,F,Td),(1,N,F,Th),(1,N,Tpre),(1,1)]
+        all_samples.append(sample)
+        # sampe：[(week_sample),(day_sample),(hour_sample),target,time_sample] = [(1,N,F,Tw),(1,N,F,Td),(1,N,F,Th),(1,N,Tpre),(1,1)]
 
-    # 划分数据集为训练集、验证集和测试集
+    print(len(all_samples))
+    # 训练集、验证集和测试集的分割点
     split_line1 = int(len(all_samples) * 0.6)
     split_line2 = int(len(all_samples) * 0.8)
 
@@ -268,6 +269,26 @@ def read_and_generate_dataset(graph_signal_matrix_filename,
     print()
     print('train data _mean :', stats['_mean'].shape, stats['_mean'])
     print('train data _std :', stats['_std'].shape, stats['_std'])
+
+    # ============================================================
+    import pandas as pd
+
+    # 获取test_target
+    test_target = all_data['test']['target']
+
+    # 将test_target重新调整形状为二维（3394 * 307，12）
+    reshaped_test_target = test_target.reshape(-1, test_target.shape[-1])
+
+    # 创建列名列表
+    column_names = [f'test-{i + 1}' for i in range(reshaped_test_target.shape[1])]
+
+    # 创建DataFrame，并设置列名
+    df = pd.DataFrame(reshaped_test_target, columns=column_names)
+
+    # 写入CSV文件
+    csv_filename = './test_target.csv'
+    df.to_csv(csv_filename, index=False)
+    # ============================================================
 
     # 保存数据集
     if save:
@@ -348,19 +369,21 @@ if config.has_option('Data', 'id_filename'):
 else:
     id_filename = None
 
-num_of_vertices = int(data_config['num_of_vertices'])
-points_per_hour = int(data_config['points_per_hour'])
-num_for_predict = int(data_config['num_for_predict'])
-len_input = int(data_config['len_input'])
+num_of_vertices = int(data_config['num_of_vertices'])   # 307
+points_per_hour = int(data_config['points_per_hour'])   # 12
+num_for_predict = int(data_config['num_for_predict'])   # 12
+len_input = int(data_config['len_input'])   # 12
 dataset_name = data_config['dataset_name']
-num_of_weeks = int(training_config['num_of_weeks'])
-num_of_days = int(training_config['num_of_days'])
-num_of_hours = int(training_config['num_of_hours'])
-num_of_vertices = int(data_config['num_of_vertices'])
-points_per_hour = int(data_config['points_per_hour'])
-num_for_predict = int(data_config['num_for_predict'])
+
+num_of_weeks = int(training_config['num_of_weeks']) # 0
+num_of_days = int(training_config['num_of_days'])   # 0
+num_of_hours = int(training_config['num_of_hours']) # 1
+
 graph_signal_matrix_filename = data_config['graph_signal_matrix_filename']
 data = np.load(graph_signal_matrix_filename)
-data['data'].shape
+print(data['data'].shape)
 
-all_data = read_and_generate_dataset(graph_signal_matrix_filename, 0, 0, num_of_hours, num_for_predict, points_per_hour=points_per_hour, save=True)
+all_data = read_and_generate_dataset(graph_signal_matrix_filename,
+                                     0, 0,
+                                     num_of_hours, num_for_predict,
+                                     points_per_hour=points_per_hour, save=True)

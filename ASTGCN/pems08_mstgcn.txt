@@ -1,0 +1,348 @@
+root@autodl-container-4d0049839c-4cc11c6f:~/autodl-tmp/Traffic-Flow-Forecasting/ASTGCN# python train_MSTGCN_r.py
+Read configuration file: ./configurations/PEMS08_astgcn.conf
+CUDA: True cuda:0
+folder_dir: astgcn_r_h1d0w0_channel1_1.000000e-03
+params_path: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03
+load file: ./data/PEMS08/PEMS08_r1_d0_w0_astcgn
+train: torch.Size([10699, 170, 1, 12]) torch.Size([10699, 170, 12])
+val: torch.Size([3567, 170, 1, 12]) torch.Size([3567, 170, 12])
+test: torch.Size([3567, 170, 1, 12]) torch.Size([3567, 170, 12])
+create params directory ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03
+param list:
+CUDA     cuda:0
+in_channels      1
+nb_block         2
+nb_chev_filter   64
+nb_time_filter   64
+time_strides     1
+batch_size       32
+graph_signal_matrix_filename     ./data/PEMS08/PEMS08.npz
+start_epoch      0
+epochs   80
+MSTGCN_submodule(
+  (BlockList): ModuleList(
+    (0): MSTGCN_block(
+      (cheb_conv): cheb_conv(
+        (Theta): ParameterList(
+            (0): Parameter containing: [torch.cuda.FloatTensor of size 1x64 (GPU 0)]
+            (1): Parameter containing: [torch.cuda.FloatTensor of size 1x64 (GPU 0)]
+            (2): Parameter containing: [torch.cuda.FloatTensor of size 1x64 (GPU 0)]
+        )
+      )
+      (time_conv): Conv2d(64, 64, kernel_size=(1, 3), stride=(1, 1), padding=(0, 1))
+      (residual_conv): Conv2d(1, 64, kernel_size=(1, 1), stride=(1, 1))
+      (ln): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+    )
+    (1): MSTGCN_block(
+      (cheb_conv): cheb_conv(
+        (Theta): ParameterList(
+            (0): Parameter containing: [torch.cuda.FloatTensor of size 64x64 (GPU 0)]
+            (1): Parameter containing: [torch.cuda.FloatTensor of size 64x64 (GPU 0)]
+            (2): Parameter containing: [torch.cuda.FloatTensor of size 64x64 (GPU 0)]
+        )
+      )
+      (time_conv): Conv2d(64, 64, kernel_size=(1, 3), stride=(1, 1), padding=(0, 1))
+      (residual_conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1))
+      (ln): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+    )
+  )
+  (final_conv): Conv2d(12, 12, kernel_size=(1, 64), stride=(1, 1))
+)
+Net's state_dict:
+BlockList.0.cheb_conv.Theta.0    torch.Size([1, 64])
+BlockList.0.cheb_conv.Theta.1    torch.Size([1, 64])
+BlockList.0.cheb_conv.Theta.2    torch.Size([1, 64])
+BlockList.0.time_conv.weight     torch.Size([64, 64, 1, 3])
+BlockList.0.time_conv.bias       torch.Size([64])
+BlockList.0.residual_conv.weight         torch.Size([64, 1, 1, 1])
+BlockList.0.residual_conv.bias   torch.Size([64])
+BlockList.0.ln.weight    torch.Size([64])
+BlockList.0.ln.bias      torch.Size([64])
+BlockList.1.cheb_conv.Theta.0    torch.Size([64, 64])
+BlockList.1.cheb_conv.Theta.1    torch.Size([64, 64])
+BlockList.1.cheb_conv.Theta.2    torch.Size([64, 64])
+BlockList.1.time_conv.weight     torch.Size([64, 64, 1, 3])
+BlockList.1.time_conv.bias       torch.Size([64])
+BlockList.1.residual_conv.weight         torch.Size([64, 64, 1, 1])
+BlockList.1.residual_conv.bias   torch.Size([64])
+BlockList.1.ln.weight    torch.Size([64])
+BlockList.1.ln.bias      torch.Size([64])
+final_conv.weight        torch.Size([12, 12, 1, 64])
+final_conv.bias          torch.Size([12])
+Net's total params: 50956
+Optimizer's state_dict:
+state    {}
+param_groups     [{'lr': 0.001, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False, 'maximize': False, 'params': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}]
+validation batch 1 / 112, loss: 14817.83
+validation batch 101 / 112, loss: 108911.06
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_0.params
+validation batch 1 / 112, loss: 1453.51
+validation batch 101 / 112, loss: 9867.21
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_1.params
+validation batch 1 / 112, loss: 473.06
+validation batch 101 / 112, loss: 2364.77
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_2.params
+global step: 1000, training loss: 1137.17, time: 89.17s
+validation batch 1 / 112, loss: 486.08
+validation batch 101 / 112, loss: 1598.37
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_3.params
+validation batch 1 / 112, loss: 507.23
+validation batch 101 / 112, loss: 1516.03
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_4.params
+validation batch 1 / 112, loss: 461.81
+validation batch 101 / 112, loss: 1579.53
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_5.params
+global step: 2000, training loss: 1258.55, time: 179.01s
+validation batch 1 / 112, loss: 454.11
+validation batch 101 / 112, loss: 1406.93
+validation batch 1 / 112, loss: 437.70
+validation batch 101 / 112, loss: 1404.38
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_7.params
+validation batch 1 / 112, loss: 462.26
+validation batch 101 / 112, loss: 1464.29
+global step: 3000, training loss: 1054.01, time: 266.62s
+validation batch 1 / 112, loss: 468.03
+validation batch 101 / 112, loss: 1386.10
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_9.params
+validation batch 1 / 112, loss: 529.37
+validation batch 101 / 112, loss: 1388.26
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_10.params
+validation batch 1 / 112, loss: 777.82
+validation batch 101 / 112, loss: 1752.54
+global step: 4000, training loss: 992.49, time: 377.26s
+validation batch 1 / 112, loss: 530.07
+validation batch 101 / 112, loss: 1464.96
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_12.params
+validation batch 1 / 112, loss: 485.67
+validation batch 101 / 112, loss: 1428.17
+validation batch 1 / 112, loss: 632.89
+validation batch 101 / 112, loss: 1530.03
+global step: 5000, training loss: 1104.81, time: 478.84s
+validation batch 1 / 112, loss: 452.35
+validation batch 101 / 112, loss: 1395.96
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_15.params
+validation batch 1 / 112, loss: 525.63
+validation batch 101 / 112, loss: 1606.36
+validation batch 1 / 112, loss: 514.72
+validation batch 101 / 112, loss: 1421.76
+global step: 6000, training loss: 1018.91, time: 590.21s
+validation batch 1 / 112, loss: 523.40
+validation batch 101 / 112, loss: 1427.06
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_18.params
+validation batch 1 / 112, loss: 465.20
+validation batch 101 / 112, loss: 1405.35
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_19.params
+validation batch 1 / 112, loss: 464.36
+validation batch 101 / 112, loss: 1377.37
+global step: 7000, training loss: 1098.35, time: 679.64s
+validation batch 1 / 112, loss: 717.12
+validation batch 101 / 112, loss: 1504.71
+validation batch 1 / 112, loss: 565.45
+validation batch 101 / 112, loss: 1614.44
+validation batch 1 / 112, loss: 506.90
+validation batch 101 / 112, loss: 1445.77
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_23.params
+global step: 8000, training loss: 988.74, time: 768.71s
+validation batch 1 / 112, loss: 513.41
+validation batch 101 / 112, loss: 1441.35
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_24.params
+validation batch 1 / 112, loss: 423.60
+validation batch 101 / 112, loss: 1356.76
+validation batch 1 / 112, loss: 471.98
+validation batch 101 / 112, loss: 1460.03
+global step: 9000, training loss: 993.31, time: 869.34s
+validation batch 1 / 112, loss: 511.79
+validation batch 101 / 112, loss: 1436.11
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_27.params
+validation batch 1 / 112, loss: 481.62
+validation batch 101 / 112, loss: 1468.29
+validation batch 1 / 112, loss: 524.42
+validation batch 101 / 112, loss: 1541.75
+global step: 10000, training loss: 1005.79, time: 984.55s
+validation batch 1 / 112, loss: 476.37
+validation batch 101 / 112, loss: 1374.46
+validation batch 1 / 112, loss: 496.20
+validation batch 101 / 112, loss: 1418.23
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_31.params
+validation batch 1 / 112, loss: 477.59
+validation batch 101 / 112, loss: 1404.02
+global step: 11000, training loss: 974.38, time: 1091.35s
+validation batch 1 / 112, loss: 506.92
+validation batch 101 / 112, loss: 1412.91
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_33.params
+validation batch 1 / 112, loss: 474.91
+validation batch 101 / 112, loss: 1362.01
+validation batch 1 / 112, loss: 589.66
+validation batch 101 / 112, loss: 1473.17
+global step: 12000, training loss: 1043.55, time: 1202.76s
+validation batch 1 / 112, loss: 618.75
+validation batch 101 / 112, loss: 1479.36
+validation batch 1 / 112, loss: 470.44
+validation batch 101 / 112, loss: 1378.05
+validation batch 1 / 112, loss: 452.01
+validation batch 101 / 112, loss: 1424.88
+global step: 13000, training loss: 918.01, time: 1290.81s
+validation batch 1 / 112, loss: 674.11
+validation batch 101 / 112, loss: 1388.45
+validation batch 1 / 112, loss: 593.99
+validation batch 101 / 112, loss: 1438.43
+validation batch 1 / 112, loss: 541.77
+validation batch 101 / 112, loss: 1399.06
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_41.params
+global step: 14000, training loss: 851.98, time: 1376.24s
+validation batch 1 / 112, loss: 489.76
+validation batch 101 / 112, loss: 1403.21
+validation batch 1 / 112, loss: 696.52
+validation batch 101 / 112, loss: 1474.03
+validation batch 1 / 112, loss: 522.13
+validation batch 101 / 112, loss: 1400.64
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_44.params
+global step: 15000, training loss: 1057.15, time: 1489.61s
+validation batch 1 / 112, loss: 505.35
+validation batch 101 / 112, loss: 1434.17
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_45.params
+validation batch 1 / 112, loss: 539.50
+validation batch 101 / 112, loss: 1460.28
+validation batch 1 / 112, loss: 735.76
+validation batch 101 / 112, loss: 1532.61
+global step: 16000, training loss: 825.16, time: 1591.55s
+validation batch 1 / 112, loss: 647.68
+validation batch 101 / 112, loss: 1545.89
+validation batch 1 / 112, loss: 800.34
+validation batch 101 / 112, loss: 1468.36
+validation batch 1 / 112, loss: 493.90
+validation batch 101 / 112, loss: 1350.89
+global step: 17000, training loss: 969.93, time: 1697.35s
+validation batch 1 / 112, loss: 497.46
+validation batch 101 / 112, loss: 1358.29
+validation batch 1 / 112, loss: 494.70
+validation batch 101 / 112, loss: 1363.47
+validation batch 1 / 112, loss: 588.39
+validation batch 101 / 112, loss: 1382.74
+global step: 18000, training loss: 964.77, time: 1807.06s
+validation batch 1 / 112, loss: 559.12
+validation batch 101 / 112, loss: 1454.52
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_54.params
+validation batch 1 / 112, loss: 644.56
+validation batch 101 / 112, loss: 1445.87
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_55.params
+validation batch 1 / 112, loss: 541.93
+validation batch 101 / 112, loss: 1394.23
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_56.params
+global step: 19000, training loss: 905.88, time: 1896.34s
+validation batch 1 / 112, loss: 503.57
+validation batch 101 / 112, loss: 1376.71
+validation batch 1 / 112, loss: 538.40
+validation batch 101 / 112, loss: 1357.78
+validation batch 1 / 112, loss: 558.36
+validation batch 101 / 112, loss: 1391.29
+global step: 20000, training loss: 759.92, time: 1984.30s
+validation batch 1 / 112, loss: 705.50
+validation batch 101 / 112, loss: 1414.32
+validation batch 1 / 112, loss: 520.33
+validation batch 101 / 112, loss: 1361.17
+validation batch 1 / 112, loss: 516.86
+validation batch 101 / 112, loss: 1358.45
+global step: 21000, training loss: 805.60, time: 2072.04s
+validation batch 1 / 112, loss: 655.51
+validation batch 101 / 112, loss: 1404.42
+validation batch 1 / 112, loss: 526.92
+validation batch 101 / 112, loss: 1368.32
+validation batch 1 / 112, loss: 555.20
+validation batch 101 / 112, loss: 1376.10
+global step: 22000, training loss: 843.45, time: 2160.94s
+validation batch 1 / 112, loss: 659.75
+validation batch 101 / 112, loss: 1409.39
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_66.params
+validation batch 1 / 112, loss: 702.13
+validation batch 101 / 112, loss: 1407.32
+validation batch 1 / 112, loss: 700.09
+validation batch 101 / 112, loss: 1423.89
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_68.params
+global step: 23000, training loss: 1015.96, time: 2251.42s
+validation batch 1 / 112, loss: 505.98
+validation batch 101 / 112, loss: 1373.81
+validation batch 1 / 112, loss: 535.81
+validation batch 101 / 112, loss: 1357.01
+validation batch 1 / 112, loss: 603.17
+validation batch 101 / 112, loss: 1494.14
+global step: 24000, training loss: 943.73, time: 2334.32s
+validation batch 1 / 112, loss: 643.00
+validation batch 101 / 112, loss: 1396.29
+validation batch 1 / 112, loss: 676.25
+validation batch 101 / 112, loss: 1568.25
+validation batch 1 / 112, loss: 536.44
+validation batch 101 / 112, loss: 1347.46
+global step: 25000, training loss: 734.91, time: 2421.14s
+validation batch 1 / 112, loss: 470.47
+validation batch 101 / 112, loss: 1340.47
+validation batch 1 / 112, loss: 644.06
+validation batch 101 / 112, loss: 1406.59
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_76.params
+validation batch 1 / 112, loss: 602.91
+validation batch 101 / 112, loss: 1419.77
+save parameters to file: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_77.params
+global step: 26000, training loss: 982.09, time: 2509.42s
+validation batch 1 / 112, loss: 515.16
+validation batch 101 / 112, loss: 1380.38
+validation batch 1 / 112, loss: 541.86
+validation batch 101 / 112, loss: 1351.82
+best epoch: 77
+load weight from: ../experiments/PEMS08/astgcn_r_h1d0w0_channel1_1.000000e-03/epoch_77.params
+predicting data set batch 1 / 112
+predicting data set batch 101 / 112
+input: (3567, 170, 1, 12)
+prediction: (3567, 170, 12)
+data_target_tensor: (3567, 170, 12)
+current epoch: unmask, predict 0 points
+MAE: 14.17
+RMSE: 21.41
+MAPE: 0.10
+current epoch: unmask, predict 1 points
+MAE: 15.59
+RMSE: 23.62
+MAPE: 0.10
+current epoch: unmask, predict 2 points
+MAE: 16.65
+RMSE: 25.26
+MAPE: 0.11
+current epoch: unmask, predict 3 points
+MAE: 17.48
+RMSE: 26.56
+MAPE: 0.11
+current epoch: unmask, predict 4 points
+MAE: 18.23
+RMSE: 27.71
+MAPE: 0.12
+current epoch: unmask, predict 5 points
+MAE: 19.04
+RMSE: 28.88
+MAPE: 0.12
+current epoch: unmask, predict 6 points
+MAE: 19.93
+RMSE: 30.09
+MAPE: 0.13
+current epoch: unmask, predict 7 points
+MAE: 20.81
+RMSE: 31.28
+MAPE: 0.14
+current epoch: unmask, predict 8 points
+MAE: 21.61
+RMSE: 32.31
+MAPE: 0.14
+current epoch: unmask, predict 9 points
+MAE: 22.40
+RMSE: 33.32
+MAPE: 0.15
+current epoch: unmask, predict 10 points
+MAE: 23.31
+RMSE: 34.50
+MAPE: 0.16
+current epoch: unmask, predict 11 points
+MAE: 24.48
+RMSE: 36.02
+MAPE: 0.16
+all MAE: 19.47
+all RMSE: 29.56
+all MAPE: 0.13
+[14.170155, 21.405083082929377, 0.096466, 15.591581, 23.6188879432496, 0.1036355, 16.65126, 25.262201665884398, 0.10906659, 17.477343, 26.55881752966835, 0.114259526, 18.231007, 27.70813459358551, 0.11871963, 19.040571, 28.884031790601338, 0.12413415, 19.926428, 30.092354588624335, 0.13025503, 20.806417, 31.284397085073614, 0.13633858, 21.611588, 32.31298544425, 0.1425721, 22.39998, 33.32150038181523, 0.14832589, 23.314116, 34.49854220199022, 0.15507399, 24.477016, 36.01902946219453, 0.16344962, 19.474796, 29.56326905877302, 0.12852454]

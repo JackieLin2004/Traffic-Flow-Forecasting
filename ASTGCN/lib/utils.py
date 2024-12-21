@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pandas as pd
 import torch
 import torch.utils.data
 from sklearn.metrics import mean_absolute_error
@@ -353,6 +354,18 @@ def predict_and_save_results_mstgcn(net, data_loader, data_target_tensor, global
         print('data_target_tensor:', data_target_tensor.shape)
         output_filename = os.path.join(params_path, 'output_epoch_%s_%s' % (global_step, type))
         np.savez(output_filename, input=input, prediction=prediction, data_target_tensor=data_target_tensor)
+
+        # ===================================================================
+        # 将 prediction 转换为二维数组 (1041958, 12)
+        prediction_reshaped = prediction.reshape(-1, prediction.shape[-1])  # (1041958, 12)
+
+        # 创建列名列表
+        column_names = [f'astgcn-{i + 1}' for i in range(prediction_reshaped.shape[1])]
+
+        # 保存到 CSV 文件
+        prediction_df = pd.DataFrame(prediction_reshaped, columns=column_names)
+        prediction_df.to_csv('./astgcn_prediction.csv', index=False)
+        # ===================================================================
 
         # 计算误差
         excel_list = []

@@ -1,12 +1,5 @@
-# @Time    : 2020/8/25
-# @Author  : LeronQ
-# @github  : https://github.com/LeronQ
-
-# Pytorch-基于GCN/GAT/Chebnet图神经网络实现的交通流预测(附代码): https://blog.csdn.net/yilulvxing/article/details/110306999
-
-# traffic_prediction.py
-
 import os
+import re
 import time
 import h5py
 import torch
@@ -32,6 +25,11 @@ warnings.filterwarnings('ignore')
 
 
 def main():
+    # 配置日志文件
+    log_file = "training_log.txt"
+    if os.path.exists(log_file):
+        os.remove(log_file)  # 删除旧的日志文件
+
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # 配置GPU,因为可能有多个GPU，这里用了第0号GPU
 
     # 第一步：准备数据（上一节已经准备好了，这里只是调用而已，链接在最开头）
@@ -70,32 +68,37 @@ def main():
 
     # 第四步：训练+测试
     # Train model
-    Epoch = 20  # 训练的次数
+    Epoch = 80  # 训练的次数
 
     my_net.train()  # 打开训练模式
-    for epoch in tqdm(range(Epoch), colour="green", desc="Train"):
-        epoch_loss = 0.0
-        count = 0
-        start_time = time.time()
-        # ["graph": [B, N, N] , "flow_x": [B, N, H, D], "flow_y": [B, N, 1, D]],一次把一个batch的训练数据取出来
-        for data in train_loader:
-            my_net.zero_grad()  # 梯度清零
-            count += 1
-            # [B, N, 1, D],由于标签flow_y在cpu中，所以最后的预测值要放回到cpu中
-            predict_value = my_net(data, device).to(torch.device("cpu"))
+    with open(log_file, "a") as log:
+        for epoch in tqdm(range(Epoch), colour="green", desc="Train"):
+            epoch_loss = 0.0
+            count = 0
+            start_time = time.time()
+            # ["graph": [B, N, N] , "flow_x": [B, N, H, D], "flow_y": [B, N, 1, D]],一次把一个batch的训练数据取出来
+            for data in train_loader:
+                my_net.zero_grad()  # 梯度清零
+                count += 1
+                # [B, N, 1, D],由于标签flow_y在cpu中，所以最后的预测值要放回到cpu中
+                predict_value = my_net(data, device).to(torch.device("cpu"))
 
-            # 计算损失，切记这个loss不是标量
-            loss = criterion(predict_value, data["flow_y"])
+                # 计算损失，切记这个loss不是标量
+                loss = criterion(predict_value, data["flow_y"])
 
-            epoch_loss += loss.item()  # 这里是把一个epoch的损失都加起来，最后再除训练数据长度，用平均loss来表示
+                epoch_loss += loss.item()  # 这里是把一个epoch的损失都加起来，最后再除训练数据长度，用平均loss来表示
 
-            loss.backward()  # 反向传播
+                loss.backward()  # 反向传播
 
-            optimizer.step()  # 更新参数
-        end_time = time.time()
+                optimizer.step()  # 更新参数
+            end_time = time.time()
+            # 将训练损失写入日志文件
+            log_entry = "Epoch: {:04d}, Loss: {:02.4f}, Time: {:02.2f} mins\n".format(
+                epoch, 1000 * epoch_loss / len(train_data), (end_time - start_time) / 60
+            )
+            log.write(log_entry)
+            print(log_entry.strip())  # 打印到控制台
 
-        print("Epoch: {:04d}, Loss: {:02.4f}, Time: {:02.2f} mins".format(epoch, 1000 * epoch_loss / len(train_data),
-                                                                          (end_time - start_time) / 60))
 
     # Test Model
     # 对于测试:
@@ -108,35 +111,38 @@ def main():
         Predict = np.zeros_like(Target)  # [N, T, D],T=1 # 预测数据的维度
 
         total_loss = 0.0
-        for data in test_loader:  # 一次把一个batch的测试数据取出来
+        with open(log_file, "a") as log:
+            for data in test_loader:  # 一次把一个batch的测试数据取出来
 
-            # 下面得到的预测结果实际上是归一化的结果，有一个问题是我们这里使用的三种评价标准以及可视化结果要用的是逆归一化的数据
-            # [B, N, 1, D]，B是batch_size, N是节点数量,1是时间T=1, D是节点的流量特征
-            predict_value = my_net(data, device).to(torch.device("cpu"))
+                # 下面得到的预测结果实际上是归一化的结果，有一个问题是我们这里使用的三种评价标准以及可视化结果要用的是逆归一化的数据
+                # [B, N, 1, D]，B是batch_size, N是节点数量,1是时间T=1, D是节点的流量特征
+                predict_value = my_net(data, device).to(torch.device("cpu"))
 
-            loss = criterion(predict_value, data["flow_y"])  # 使用MSE计算loss
+                loss = criterion(predict_value, data["flow_y"])  # 使用MSE计算loss
 
-            total_loss += loss.item()  # 所有的batch的loss累加
-            # 下面实际上是把预测值和目标值的batch放到第二维的时间维度，这是因为在测试数据的时候对样本没有shuffle，
-            # 所以每一个batch取出来的数据就是按时间顺序来的，因此放到第二维来表示时间是合理的.
-            predict_value = predict_value.transpose(0, 2).squeeze(
-                0)  # [1, N, B(T), D] -> [N, B(T), D] -> [N, T, D]
-            target_value = data["flow_y"].transpose(0, 2).squeeze(
-                0)  # [1, N, B(T), D] -> [N, B(T), D] -> [N, T, D]
+                total_loss += loss.item()  # 所有的batch的loss累加
+                # 下面实际上是把预测值和目标值的batch放到第二维的时间维度，这是因为在测试数据的时候对样本没有shuffle，
+                # 所以每一个batch取出来的数据就是按时间顺序来的，因此放到第二维来表示时间是合理的.
+                predict_value = predict_value.transpose(0, 2).squeeze(
+                    0)  # [1, N, B(T), D] -> [N, B(T), D] -> [N, T, D]
+                target_value = data["flow_y"].transpose(0, 2).squeeze(
+                    0)  # [1, N, B(T), D] -> [N, B(T), D] -> [N, T, D]
 
-            performance, data_to_save = compute_performance(
-                predict_value, target_value, test_loader)  # 计算模型的性能，返回评价结果和恢复好的数据
+                performance, data_to_save = compute_performance(
+                    predict_value, target_value, test_loader)  # 计算模型的性能，返回评价结果和恢复好的数据
 
-            # 下面这个是每一个batch取出的数据，按batch这个维度进行串联，最后就得到了整个时间的数据，也就是
-            # [N, T, D] = [N, T1+T2+..., D]
-            Predict = np.concatenate([Predict, data_to_save[0]], axis=1)
-            Target = np.concatenate([Target, data_to_save[1]], axis=1)
+                # 下面这个是每一个batch取出的数据，按batch这个维度进行串联，最后就得到了整个时间的数据，也就是
+                # [N, T, D] = [N, T1+T2+..., D]
+                Predict = np.concatenate([Predict, data_to_save[0]], axis=1)
+                Target = np.concatenate([Target, data_to_save[1]], axis=1)
 
-            MAE.append(performance[0])
-            MAPE.append(performance[1])
-            RMSE.append(performance[2])
+                MAE.append(performance[0])
+                MAPE.append(performance[1])
+                RMSE.append(performance[2])
 
-            print("Test Loss: {:02.4f}".format(1000 * total_loss / len(test_data)))
+                log_entry = "Test Loss: {:02.4f}\n".format(1000 * total_loss / len(test_data))
+                log.write(log_entry)
+                print(log_entry.strip())  # 打印到控制台
 
     # 三种指标取平均
     print("Performance:  MAE {:2.2f}    {:2.2f}%    {:2.2f}".format(np.mean(MAE), np.mean(MAPE * 100), np.mean(RMSE)))
@@ -145,12 +151,34 @@ def main():
     Predict = np.delete(Predict, 0, axis=1)
     Target = np.delete(Target, 0, axis=1)
 
-    result_file = "GAT_result.h5"
+    result_file = "GCN_result.h5"
     file_obj = h5py.File(result_file, "w")  # 将预测值和目标值保存到文件中，因为要多次可视化看看结果
 
     file_obj["predict"] = Predict  # [N, T, D]
     file_obj["target"] = Target  # [N, T, D]
 
+def extract_loss_from_log(log_file):
+    """
+    从日志文件中提取训练和测试的损失值
+    """
+    train_losses = []
+    test_losses = []
+    with open(log_file, "r") as f:
+        for line in f:
+            # 提取训练损失
+            train_match = re.search(r"Epoch: (\d+), Loss: (\d+\.\d+)", line)
+            if train_match:
+                epoch = int(train_match.group(1))
+                loss = float(train_match.group(2))
+                train_losses.append((epoch, loss))
+
+            # 提取测试损失
+            test_match = re.search(r"Test Loss: (\d+\.\d+)", line)
+            if test_match:
+                loss = float(test_match.group(1))
+                test_losses.append(loss)
+
+    return train_losses, test_losses
 
 def compute_performance(prediction, target, data):  # 计算模型性能
     # 下面的try和except实际上在做这样一件事：当训练+测试模型的时候，数据肯定是经过dataloader的，所以直接赋值就可以了
@@ -180,8 +208,17 @@ def compute_performance(prediction, target, data):  # 计算模型性能
 
 if __name__ == '__main__':
     main()
+
+    # 提取损失值
+    log_file = "training_log.txt"
+    train_losses, test_losses = extract_loss_from_log(log_file)
+
+    # 打印提取的损失值
+    print("Train Losses:", train_losses)
+    print("Test Losses:", test_losses)
+
     # 可视化，在下面的 Evaluation()类中，这里是对应的GAT算法运行的结果，进行可视化
     # 如果要对GCN或者chebnet进行可视化，只需要在第45行，注释修改下对应的算法即可
-    visualize_result(h5_file="GAT_result.h5",
+    visualize_result(h5_file="GCN_result.h5",
                      nodes_id=120, time_se=[0, 24 * 12 * 2],  # 是节点的时间范围
                      visualize_file="gat_node_120")

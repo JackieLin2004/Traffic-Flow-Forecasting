@@ -30,10 +30,10 @@ if config.has_option('Data', 'id_filename'):
 else:
     id_filename = None
 
-num_of_vertices = int(data_config['num_of_vertices'])
-points_per_hour = int(data_config['points_per_hour'])
-num_for_predict = int(data_config['num_for_predict'])
-len_input = int(data_config['len_input'])
+num_of_vertices = int(data_config['num_of_vertices'])   # 307
+points_per_hour = int(data_config['points_per_hour'])   # 12
+num_for_predict = int(data_config['num_for_predict'])   # 12
+len_input = int(data_config['len_input'])   # 12
 dataset_name = data_config['dataset_name']
 
 model_name = training_config['model_name']

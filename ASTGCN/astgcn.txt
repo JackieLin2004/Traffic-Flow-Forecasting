@@ -1,4 +1,30 @@
-root@autodl-container-8fd941ac7c-1b48858e:~/autodl-tmp/Traffic-Flow-Forecasting/ASTGCN# python train_ASTGCN_r.py 
+root@autodl-container-4d0049839c-4cc11c6f:~/autodl-tmp/Traffic-Flow-Forecasting/ASTGCN# python prepareData.py
+Read configuration file: configurations/PEMS04_astgcn.conf
+mean.shape: (1, 1, 3, 1)
+std.shape: (1, 1, 3, 1)
+train x: (10181, 307, 3, 12)
+train target: (10181, 307, 12)
+train timestamp: (10181, 1)
+
+val x: (3394, 307, 3, 12)
+val target: (3394, 307, 12)
+val timestamp: (3394, 1)
+
+test x: (3394, 307, 3, 12)
+test target: (3394, 307, 12)
+test timestamp: (3394, 1)
+
+train data _mean : (1, 1, 3, 1) [[[[2.07227338e+02]
+   [5.13195612e-02]
+   [6.34740574e+01]]]]
+train data _std : (1, 1, 3, 1) [[[[1.56477655e+02]
+   [4.78541626e-02]
+   [8.10351724e+00]]]]
+save file: ./data/PEMS04/PEMS04_r1_d0_w0_astcgn
+
+
+
+root@autodl-container-8fd941ac7c-1b48858e:~/autodl-tmp/Traffic-Flow-Forecasting/ASTGCN# python train_ASTGCN_r.py
 Read configuration file: ./configurations/PEMS04_astgcn.conf
 CUDA: True cuda:0
 folder_dir: astgcn_r_h1d0w0_channel1_1.000000e-03
