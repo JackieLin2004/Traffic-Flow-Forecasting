@@ -7,3 +7,5 @@ pandas~=1.2.4
 tqdm~=4.66.5
 h5py~=3.12.1
 rich~=13.9.4
+matplotlib~=3.5.1
+seaborn~=0.13.2
