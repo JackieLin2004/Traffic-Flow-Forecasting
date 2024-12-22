@@ -6,10 +6,8 @@ import torch
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
-# 这个就是上一小节处理数据自己写的的类，封装在traffic_dataset.py文件中
 from traffic_dataset import LoadData
 from utils import Evaluation  # 三种评价指标以及可视化类
 from utils import visualize_result
@@ -26,22 +24,22 @@ warnings.filterwarnings('ignore')
 
 def main():
     # 配置日志文件
-    log_file = "training_log.txt"
+    log_file = "GAT_08_training_log.txt" ##todo
     if os.path.exists(log_file):
-        os.remove(log_file)  # 删除旧的日志文件
+        os.remove(log_file)
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # 配置GPU,因为可能有多个GPU，这里用了第0号GPU
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-    # 第一步：准备数据（上一节已经准备好了，这里只是调用而已，链接在最开头）
-    train_data = LoadData(data_path=["PeMS_04/PeMS04.csv", "PeMS_04/PeMS04.npz"], num_nodes=307, divide_days=[45, 14],
+    # 第一步：todo 准备数据
+    train_data = LoadData(data_path=["PeMS_08/PeMS08.csv", "PeMS_08/PeMS08.npz"], num_nodes=170, divide_days=[45, 14],
                           time_interval=5, history_length=6,
                           train_mode="train")
 
     # num_workers是加载数据（batch）的线程数目
     train_loader = DataLoader(
         train_data, batch_size=32, shuffle=True, num_workers=4)
-
-    test_data = LoadData(data_path=["PeMS_04/PeMS04.csv", "PeMS_04/PeMS04.npz"], num_nodes=307, divide_days=[45, 14],
+    # todo
+    test_data = LoadData(data_path=["PeMS_08/PeMS08.csv", "PeMS_08/PeMS08.npz"], num_nodes=170, divide_days=[45, 14],
                          time_interval=5, history_length=6,
                          train_mode="test")
 
@@ -49,10 +47,10 @@ def main():
                              shuffle=False, num_workers=4)
     print("🚀🚀🚀 [italic bold green]数据加载完成!!!")
 
-    # SECTION: 第二步：定义模型（这里其实只是加载模型，关于模型的定义在下面单独写了，先假设已经写好）
-    my_net = GCN(in_c=6, hid_c=6, out_c=1)  # 加载GCN模型
+    # todo SECTION: 第二步：定义模型（这里其实只是加载模型，关于模型的定义在下面单独写了，先假设已经写好）
+    # my_net = GCN(in_c=6, hid_c=6, out_c=1)  # 加载GCN模型
     # my_net = ChebNet(in_c=6, hid_c=6, out_c=1, K=2)   # 加载ChebNet模型
-    # my_net = GATNet(in_c=6 * 1, hid_c=6, out_c=1, n_heads=2)  # 加载GAT模型
+    my_net = GATNet(in_c=6 * 1, hid_c=6, out_c=1, n_heads=2)  # 加载GAT模型
     print(my_net)
 
     device = torch.device(
@@ -68,7 +66,7 @@ def main():
 
     # 第四步：训练+测试
     # Train model
-    Epoch = 80  # 训练的次数
+    Epoch = 80  # todo 训练的次数
 
     my_net.train()  # 打开训练模式
     with open(log_file, "a") as log:
@@ -76,7 +74,6 @@ def main():
             epoch_loss = 0.0
             count = 0
             start_time = time.time()
-            # ["graph": [B, N, N] , "flow_x": [B, N, H, D], "flow_y": [B, N, 1, D]],一次把一个batch的训练数据取出来
             for data in train_loader:
                 my_net.zero_grad()  # 梯度清零
                 count += 1
@@ -86,7 +83,7 @@ def main():
                 # 计算损失，切记这个loss不是标量
                 loss = criterion(predict_value, data["flow_y"])
 
-                epoch_loss += loss.item()  # 这里是把一个epoch的损失都加起来，最后再除训练数据长度，用平均loss来表示
+                epoch_loss += loss.item()  # 把一个epoch的损失都加起来，最后再除训练数据长度，用平均loss来表示
 
                 loss.backward()  # 反向传播
 
@@ -103,11 +100,11 @@ def main():
     # Test Model
     # 对于测试:
     # 第一、除了计算loss之外，还需要可视化一下预测的结果（定性分析）
-    # 第二、对于预测的结果这里我使用了 MAE, MAPE, and RMSE 这三种评价标准来评估（定量分析）
+    # 第二、对于预测的结果这里我们使用了 MAE, MAPE, and RMSE 这三种评价标准来评估（定量分析）
     my_net.eval()  # 打开测试模式
     with torch.no_grad():  # 关闭梯度
         MAE, MAPE, RMSE = [], [], []  # 定义三种指标的列表
-        Target = np.zeros([307, 1, 1])  # [N, T, D],T=1 ＃ 目标数据的维度，用０填充
+        Target = np.zeros([170, 1, 1])  # [N, T, D],T=1 ＃ 目标数据的维度，用０填充
         Predict = np.zeros_like(Target)  # [N, T, D],T=1 # 预测数据的维度
 
         total_loss = 0.0
@@ -151,7 +148,7 @@ def main():
     Predict = np.delete(Predict, 0, axis=1)
     Target = np.delete(Target, 0, axis=1)
 
-    result_file = "GCN_result.h5"
+    result_file = "GAT_08_result.h5" ##todo
     file_obj = h5py.File(result_file, "w")  # 将预测值和目标值保存到文件中，因为要多次可视化看看结果
 
     file_obj["predict"] = Predict  # [N, T, D]
@@ -181,14 +178,12 @@ def extract_loss_from_log(log_file):
     return train_losses, test_losses
 
 def compute_performance(prediction, target, data):  # 计算模型性能
-    # 下面的try和except实际上在做这样一件事：当训练+测试模型的时候，数据肯定是经过dataloader的，所以直接赋值就可以了
-    # 但是如果将训练好的模型保存下来，然后测试，那么数据就没有经过dataloader，是dataloader型的，需要转换成dataset型。
     try:
         dataset = data.dataset  # 数据为dataloader型，通过它下面的属性.dataset类变成dataset型数据
     except:
         dataset = data  # 数据为dataset型，直接赋值
 
-    # 下面就是对预测和目标数据进行逆归一化，recover_data()函数在上一小节的数据处理中
+    # 下面就是对预测和目标数据进行逆归一化
     #  flow_norm为归一化的基，flow_norm[0]为最大值，flow_norm[1]为最小值
     # prediction.numpy()和target.numpy()是需要逆归一化的数据，转换成numpy型是因为 recover_data()函数中的数据都是numpy型，保持一致
     prediction = LoadData.recover_data(
@@ -210,15 +205,13 @@ if __name__ == '__main__':
     main()
 
     # 提取损失值
-    log_file = "training_log.txt"
+    log_file = "GAT_08_training_log.txt" ##todo
     train_losses, test_losses = extract_loss_from_log(log_file)
 
     # 打印提取的损失值
     print("Train Losses:", train_losses)
     print("Test Losses:", test_losses)
 
-    # 可视化，在下面的 Evaluation()类中，这里是对应的GAT算法运行的结果，进行可视化
-    # 如果要对GCN或者chebnet进行可视化，只需要在第45行，注释修改下对应的算法即可
-    visualize_result(h5_file="GCN_result.h5",
+    visualize_result(h5_file="GAT_08_result.h5", ##todo
                      nodes_id=120, time_se=[0, 24 * 12 * 2],  # 是节点的时间范围
                      visualize_file="gat_node_120")

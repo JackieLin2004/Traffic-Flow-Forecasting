@@ -1,2 +1,6 @@
 /data
 /experiments
+
+/results/GAT_04_result.h5
+/results/GAT_08_result.h5
+/results/GCN_04_result.h5

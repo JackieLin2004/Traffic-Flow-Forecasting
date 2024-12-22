@@ -1,0 +1,207 @@
+Epoch: 0000, Loss: 2.1524, Time: 0.34 mins
+Epoch: 0001, Loss: 0.4650, Time: 0.31 mins
+Epoch: 0002, Loss: 0.4209, Time: 0.32 mins
+Epoch: 0003, Loss: 0.3642, Time: 0.30 mins
+Epoch: 0004, Loss: 0.3315, Time: 0.29 mins
+Epoch: 0005, Loss: 0.3086, Time: 0.29 mins
+Epoch: 0006, Loss: 0.2905, Time: 0.31 mins
+Epoch: 0007, Loss: 0.2767, Time: 0.33 mins
+Epoch: 0008, Loss: 0.2663, Time: 0.30 mins
+Epoch: 0009, Loss: 0.2583, Time: 0.29 mins
+Epoch: 0010, Loss: 0.2518, Time: 0.31 mins
+Epoch: 0011, Loss: 0.2461, Time: 0.33 mins
+Epoch: 0012, Loss: 0.2395, Time: 0.34 mins
+Epoch: 0013, Loss: 0.2361, Time: 0.34 mins
+Epoch: 0014, Loss: 0.2339, Time: 0.32 mins
+Epoch: 0015, Loss: 0.2323, Time: 0.30 mins
+Epoch: 0016, Loss: 0.2311, Time: 0.31 mins
+Epoch: 0017, Loss: 0.2303, Time: 0.30 mins
+Epoch: 0018, Loss: 0.2294, Time: 0.31 mins
+Epoch: 0019, Loss: 0.2288, Time: 0.30 mins
+Epoch: 0020, Loss: 0.2284, Time: 0.32 mins
+Epoch: 0021, Loss: 0.2283, Time: 0.32 mins
+Epoch: 0022, Loss: 0.2281, Time: 0.33 mins
+Epoch: 0023, Loss: 0.2280, Time: 0.31 mins
+Epoch: 0024, Loss: 0.2279, Time: 0.32 mins
+Epoch: 0025, Loss: 0.2277, Time: 0.32 mins
+Epoch: 0026, Loss: 0.2278, Time: 0.35 mins
+Epoch: 0027, Loss: 0.2278, Time: 0.33 mins
+Epoch: 0028, Loss: 0.2278, Time: 0.30 mins
+Epoch: 0029, Loss: 0.2277, Time: 0.36 mins
+Epoch: 0030, Loss: 0.2276, Time: 0.34 mins
+Epoch: 0031, Loss: 0.2274, Time: 0.32 mins
+Epoch: 0032, Loss: 0.2275, Time: 0.35 mins
+Epoch: 0033, Loss: 0.2274, Time: 0.34 mins
+Epoch: 0034, Loss: 0.2274, Time: 0.34 mins
+Epoch: 0035, Loss: 0.2273, Time: 0.31 mins
+Epoch: 0036, Loss: 0.2273, Time: 0.31 mins
+Epoch: 0037, Loss: 0.2273, Time: 0.32 mins
+Epoch: 0038, Loss: 0.2275, Time: 0.37 mins
+Epoch: 0039, Loss: 0.2273, Time: 0.39 mins
+Epoch: 0040, Loss: 0.2274, Time: 0.39 mins
+Epoch: 0041, Loss: 0.2275, Time: 0.36 mins
+Epoch: 0042, Loss: 0.2272, Time: 0.34 mins
+Epoch: 0043, Loss: 0.2271, Time: 0.34 mins
+Epoch: 0044, Loss: 0.2273, Time: 0.33 mins
+Epoch: 0045, Loss: 0.2271, Time: 0.34 mins
+Epoch: 0046, Loss: 0.2272, Time: 0.35 mins
+Epoch: 0047, Loss: 0.2273, Time: 0.32 mins
+Epoch: 0048, Loss: 0.2270, Time: 0.31 mins
+Epoch: 0049, Loss: 0.2271, Time: 0.32 mins
+Epoch: 0050, Loss: 0.2270, Time: 0.34 mins
+Epoch: 0051, Loss: 0.2272, Time: 0.34 mins
+Epoch: 0052, Loss: 0.2270, Time: 0.36 mins
+Epoch: 0053, Loss: 0.2270, Time: 0.42 mins
+Epoch: 0054, Loss: 0.2271, Time: 0.44 mins
+Epoch: 0055, Loss: 0.2272, Time: 0.50 mins
+Epoch: 0056, Loss: 0.2270, Time: 0.33 mins
+Epoch: 0057, Loss: 0.2269, Time: 0.34 mins
+Epoch: 0058, Loss: 0.2271, Time: 0.33 mins
+Epoch: 0059, Loss: 0.2270, Time: 0.30 mins
+Epoch: 0060, Loss: 0.2269, Time: 0.35 mins
+Epoch: 0061, Loss: 0.2269, Time: 0.30 mins
+Epoch: 0062, Loss: 0.2268, Time: 0.34 mins
+Epoch: 0063, Loss: 0.2270, Time: 0.34 mins
+Epoch: 0064, Loss: 0.2268, Time: 0.31 mins
+Epoch: 0065, Loss: 0.2269, Time: 0.32 mins
+Epoch: 0066, Loss: 0.2271, Time: 0.32 mins
+Epoch: 0067, Loss: 0.2268, Time: 0.30 mins
+Epoch: 0068, Loss: 0.2269, Time: 0.31 mins
+Epoch: 0069, Loss: 0.2270, Time: 0.31 mins
+Epoch: 0070, Loss: 0.2268, Time: 0.33 mins
+Epoch: 0071, Loss: 0.2269, Time: 0.30 mins
+Epoch: 0072, Loss: 0.2267, Time: 0.31 mins
+Epoch: 0073, Loss: 0.2267, Time: 0.32 mins
+Epoch: 0074, Loss: 0.2267, Time: 0.32 mins
+Epoch: 0075, Loss: 0.2267, Time: 0.30 mins
+Epoch: 0076, Loss: 0.2268, Time: 0.33 mins
+Epoch: 0077, Loss: 0.2267, Time: 0.31 mins
+Epoch: 0078, Loss: 0.2267, Time: 0.30 mins
+Epoch: 0079, Loss: 0.2268, Time: 0.33 mins
+Test Loss: 0.0003
+Test Loss: 0.0013
+Test Loss: 0.0048
+Test Loss: 0.0077
+Test Loss: 0.0104
+Test Loss: 0.0138
+Test Loss: 0.0172
+Test Loss: 0.0196
+Test Loss: 0.0207
+Test Loss: 0.0209
+Test Loss: 0.0217
+Test Loss: 0.0247
+Test Loss: 0.0272
+Test Loss: 0.0300
+Test Loss: 0.0331
+Test Loss: 0.0358
+Test Loss: 0.0378
+Test Loss: 0.0389
+Test Loss: 0.0393
+Test Loss: 0.0396
+Test Loss: 0.0404
+Test Loss: 0.0426
+Test Loss: 0.0450
+Test Loss: 0.0479
+Test Loss: 0.0502
+Test Loss: 0.0518
+Test Loss: 0.0529
+Test Loss: 0.0533
+Test Loss: 0.0535
+Test Loss: 0.0540
+Test Loss: 0.0554
+Test Loss: 0.0576
+Test Loss: 0.0601
+Test Loss: 0.0621
+Test Loss: 0.0636
+Test Loss: 0.0643
+Test Loss: 0.0646
+Test Loss: 0.0650
+Test Loss: 0.0664
+Test Loss: 0.0681
+Test Loss: 0.0703
+Test Loss: 0.0726
+Test Loss: 0.0749
+Test Loss: 0.0765
+Test Loss: 0.0772
+Test Loss: 0.0775
+Test Loss: 0.0785
+Test Loss: 0.0817
+Test Loss: 0.0844
+Test Loss: 0.0868
+Test Loss: 0.0896
+Test Loss: 0.0926
+Test Loss: 0.0944
+Test Loss: 0.0952
+Test Loss: 0.0954
+Test Loss: 0.0963
+Test Loss: 0.0994
+Test Loss: 0.1021
+Test Loss: 0.1043
+Test Loss: 0.1073
+Test Loss: 0.1103
+Test Loss: 0.1124
+Test Loss: 0.1132
+Test Loss: 0.1135
+Test Loss: 0.1144
+Test Loss: 0.1173
+Test Loss: 0.1198
+Test Loss: 0.1222
+Test Loss: 0.1264
+Test Loss: 0.1292
+Test Loss: 0.1312
+Test Loss: 0.1321
+Test Loss: 0.1324
+Test Loss: 0.1333
+Test Loss: 0.1361
+Test Loss: 0.1386
+Test Loss: 0.1414
+Test Loss: 0.1446
+Test Loss: 0.1472
+Test Loss: 0.1493
+Test Loss: 0.1504
+Test Loss: 0.1508
+Test Loss: 0.1511
+Test Loss: 0.1520
+Test Loss: 0.1536
+Test Loss: 0.1557
+Test Loss: 0.1589
+Test Loss: 0.1617
+Test Loss: 0.1636
+Test Loss: 0.1648
+Test Loss: 0.1652
+Test Loss: 0.1654
+Test Loss: 0.1659
+Test Loss: 0.1673
+Test Loss: 0.1697
+Test Loss: 0.1723
+Test Loss: 0.1746
+Test Loss: 0.1761
+Test Loss: 0.1769
+Test Loss: 0.1771
+Test Loss: 0.1780
+Test Loss: 0.1806
+Test Loss: 0.1829
+Test Loss: 0.1850
+Test Loss: 0.1885
+Test Loss: 0.1913
+Test Loss: 0.1931
+Test Loss: 0.1937
+Test Loss: 0.1940
+Test Loss: 0.1949
+Test Loss: 0.1979
+Test Loss: 0.2006
+Test Loss: 0.2029
+Test Loss: 0.2058
+Test Loss: 0.2087
+Test Loss: 0.2106
+Test Loss: 0.2115
+Test Loss: 0.2117
+Test Loss: 0.2126
+Test Loss: 0.2157
+Test Loss: 0.2182
+Test Loss: 0.2204
+Test Loss: 0.2231
+Test Loss: 0.2259
+Test Loss: 0.2279
+Test Loss: 0.2288
+Performance:  MAE 29.98    0.33%    43.49

@@ -1,10 +1,3 @@
-# @Time    : 2020/8/25 
-# @Author  : LeronQ
-# @github  : https://github.com/LeronQ
-
-
-# gcnnet.py
-
 import torch
 import torch.nn as nn
 

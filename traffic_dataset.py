@@ -1,7 +1,3 @@
-# @Time    : 2020/8/25 
-# @Author  : LeronQ
-# @github  : https://github.com/LeronQ
-
 import csv
 import torch
 import numpy as np

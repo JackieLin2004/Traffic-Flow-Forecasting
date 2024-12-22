@@ -1,12 +1,3 @@
-# @Time    : 2020/8/16 
-# @Author  : LeronQ
-# @github  : https://github.com/LeronQ
-
-
-#  utils.py
-
-# -*- coding: utf-8 -*-
-
 import matplotlib.pyplot as plt
 import numpy as np
 import h5py
